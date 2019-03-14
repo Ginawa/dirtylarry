@@ -53,7 +53,6 @@ function dirtylarry.hit(self, node, action_id, action, cb)
     return hit
 end
 
-
 function dirtylarry.button(self, node, action_id, action, cb)
 
     local node_bg = gui.get_node(node .. "/larrybutton")
@@ -75,7 +74,6 @@ function dirtylarry.button(self, node, action_id, action, cb)
     gui.set_position(node_label, label_p)
 
 end
-
 
 function dirtylarry.checkbox(self, node, action_id, action, value)
 
@@ -107,6 +105,14 @@ function dirtylarry.radio(self, node, action_id, action, id, value)
     local flipbook = "radio_" .. (value == id and "checked_" or "") .. (hit and not action.released and "pressed" or "normal")
     gui.play_flipbook(node_bg, flipbook)
     return value
+end
+
+function dirtylarry.set_input(self, node, txt)
+    local node_content = gui.get_node(node .. "/content")
+    local url = msg.url()
+    local key = tostring(url.socket) .. hash_to_hex(url.path) .. hash_to_hex(url.fragment or hash("")) .. node
+    dirtylarry.input_nodes[key].data = txt
+    gui.set_text(node_content, txt)
 end
 
 function dirtylarry.input(self, node, action_id, action, type, empty_text, set_text)
