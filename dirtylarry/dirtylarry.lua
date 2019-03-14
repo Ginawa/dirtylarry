@@ -111,6 +111,11 @@ function dirtylarry.set_input(self, node, txt)
     local node_content = gui.get_node(node .. "/content")
     local url = msg.url()
     local key = tostring(url.socket) .. hash_to_hex(url.path) .. hash_to_hex(url.fragment or hash("")) .. node
+
+    if (not dirtylarry.input_nodes[key]) then
+        dirtylarry.input_nodes[key] = { id = node, data = gui.get_text(node_content), active = false }
+    end
+
     dirtylarry.input_nodes[key].data = txt
     gui.set_text(node_content, txt)
 end
